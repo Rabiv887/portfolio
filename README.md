@@ -15,7 +15,7 @@ Cloudflare Pages at <https://julmothossain.me>.
 | Phase 2 | Projects index + individual project detail pages | Complete |
 | Phase 3 | Project detail polish, media slots | Complete |
 | Phase 4 | About, Resume, FAQ pages | Complete |
-| Phase 5 | Contact page + form with spam protection | Not started |
+| Phase 5 | Contact page + form with spam protection | Complete |
 | Phase 6 | SEO, performance, accessibility audit, deploy | Not started |
 
 Routes for later phases already exist and render an honest "built in a later

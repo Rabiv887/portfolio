@@ -1,22 +1,27 @@
 {
-	"name": "julmot-hossain-portfolio",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"preview": "npx serve out",
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"next": "15.3.3",
-		"react": "19.1.0",
-		"react-dom": "19.1.0"
-	},
-	"devDependencies": {
-		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
-		"typescript": "^5"
-	}
+  "name": "julmot-hossain-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal portfolio website for Md. Julmot Hossain — julmothossain.me",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "npx serve out",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "15.3.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
 }
