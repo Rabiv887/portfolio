@@ -1,23 +1,22 @@
 import type { Metadata } from "next"
 import { ContactCta } from "@/components/home/ContactCta"
+import { ProjectCard } from "@/components/ProjectCard"
 import { ProjectsExplorer } from "@/components/ProjectsExplorer"
-import { Section } from "@/components/ui"
-import { projects } from "@/lib/projects"
+import { Notice, Section, SectionHead } from "@/components/ui"
+import { featuredProjects, projects } from "@/lib/projects"
 import { site } from "@/lib/site"
 
 import "@/styles/projects.css"
 
 const description =
-	"Browse every project built by " +
-	site.name +
-	", filterable by tag, technology, and status."
+	"Practical web tools and AI-assisted automation projects, documented honestly with real scope, tech, and challenges."
 
 export const metadata: Metadata = {
-	title: { absolute: "Projects \u2014 " + site.name },
+	title: { absolute: "Projects by " + site.name },
 	description,
 	alternates: { canonical: "/projects/" },
 	openGraph: {
-		title: "Projects \u2014 " + site.name,
+		title: "Projects by " + site.name,
 		description,
 	},
 }
@@ -27,15 +26,45 @@ export default function ProjectsPage() {
 		<>
 			<Section id="projects-header" className="page-header">
 				<p className="eyebrow">Projects</p>
-				<h1>All projects</h1>
+				<h1>Practical tools, automation systems, and AI-assisted experiments</h1>
 				<p className="page-header__lede">
-					Every tool I have shipped so far, with the problem it solves and the
-					stack behind it. Filter by tag or search by name.
+					{projects.length} documented projects — public web tools you can try
+					right now, and private automation built to solve real day-to-day
+					problems.
 				</p>
 			</Section>
 
-			<Section id="projects-list">
+			<Section
+				id="featured-projects"
+				labelledBy="projects-featured-title"
+				className="section--tight"
+			>
+				<SectionHead
+					eyebrow="Featured"
+					title="Start here"
+					titleId="projects-featured-title"
+					description="The two public tools, live and ready to try."
+				/>
+				<div className="featured-grid">
+					{featuredProjects.map((project, index) => (
+						<ProjectCard key={project.slug} project={project} index={index} />
+					))}
+				</div>
+			</Section>
+
+			<Section id="all-projects" labelledBy="all-projects-title">
+				<SectionHead
+					eyebrow="All projects"
+					title="Everything I have built so far"
+					titleId="all-projects-title"
+					description="Filter by category, or by whether a project is public or kept private."
+				/>
 				<ProjectsExplorer projects={projects} />
+				<Notice>
+					Private projects are described honestly — problem, role, tools, and
+					challenges — without publishing credentials, tokens, or internal
+					repository links.
+				</Notice>
 			</Section>
 
 			<ContactCta />
