@@ -1,0 +1,8 @@
+{
+	"name": "Md. Julmot Hossain",
+	"short_name": "Julmot Hossain",
+	"icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+	"theme_color": "#0F172A",
+	"background_color": "#0F172A",
+	"display": "standalone"
+}
