@@ -16,10 +16,39 @@ Cloudflare Pages at <https://julmothossain.me>.
 | Phase 3 | Project detail polish, media slots | Complete |
 | Phase 4 | About, Resume, FAQ pages | Complete |
 | Phase 5 | Contact page + form with spam protection | Complete |
-| Phase 6 | SEO, performance, accessibility audit, deploy | Not started |
+| Phase 6 | SEO, performance, accessibility audit, deploy prep | Complete |
 
 Routes for later phases already exist and render an honest "built in a later
 phase" placeholder, so navigation never breaks and no invented content is shown.
+
+---
+
+## Phase 6 notes (SEO, performance, accessibility, deploy)
+
+- **Social sharing image**: added a branded Open Graph/Twitter card
+  (`app/opengraph-image.png`, `app/twitter-image.png`, 1200×630) using the
+  same monogram and gradient as the favicon and wordmark — no personal photo
+  and no fabricated screenshot, consistent with earlier decisions. Next.js
+  picks these up automatically for every route via its file convention.
+- **Metadata audit**: confirmed every route (`/`, `/about/`, `/projects/`,
+  `/projects/[slug]/`, `/resume/`, `/faq/`, `/contact/`, `/404`) exports a
+  distinct title, description, and canonical URL, and that `sitemap.ts` /
+  `robots.ts` reference the production domain.
+- **Accessibility audit**: confirmed skip link, `:focus-visible` styles,
+  `aria-hidden` decorative icons, `aria-live` form status, honeypot field
+  hidden from assistive tech, and `prefers-reduced-motion` handling are all
+  present across shared components and stylesheets — no changes needed.
+- **Performance**: fonts already self-hosted via `next/font` (no
+  render-blocking third-party font requests); `images.unoptimized` is
+  intentional since the static export has no image optimization server.
+- **Deploy prep**: added `.node-version` (`20`) so Cloudflare Pages builds
+  with the same Node version as `package.json` `engines`. Cloudflare Pages
+  project settings: build command `npm run build`, output directory `out`,
+  root directory `/`.
+- `npm install` / `next build` still could not be run in this authoring
+  environment (no network access); `tsc --noEmit` was re-run and only shows
+  the same pre-existing baseline errors caused by `node_modules` not being
+  installed, with no new error categories introduced by this phase.
 
 ---
 
