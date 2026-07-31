@@ -19,7 +19,9 @@ export const site = {
 	shortDescription:
 		"Personal portfolio of Md. Julmot Hossain — practical web tools, AI-assisted development, and everyday automation projects.",
 	email: "contact@julmothossain.me",
-	url: "https://julmothossain.me",
+	// GitHub Pages project-site URL. Must match `basePath` in next.config.mjs.
+	url: "https://rabiv887.github.io/portfolio",
+	basePath: "/portfolio",
 	education: "B.Sc. in Mathematics",
 	availability: "Open to collaborations and internships",
 	localeLang: "en",
