@@ -3,51 +3,33 @@
 import { useEffect, useState } from "react"
 import { Moon, Sun } from "@/components/Icons"
 
-export type Theme = "dark" | "light"
-export const THEME_STORAGE_KEY = "jh-theme"
-
-function applyTheme(theme: Theme) {
-	document.documentElement.setAttribute("data-theme", theme)
-	document.documentElement.style.colorScheme = theme
-}
-
-/** Dark is the default; the choice is remembered per browser. */
-export function ThemeToggle({ className = "" }: { className?: string }) {
-	const [theme, setTheme] = useState<Theme>("dark")
-	const [mounted, setMounted] = useState(false)
+export function ThemeToggle() {
+	const [theme, setTheme] = useState<"dark" | "light">("dark")
 
 	useEffect(() => {
 		const current = document.documentElement.getAttribute("data-theme")
-		setTheme(current === "light" ? "light" : "dark")
-		setMounted(true)
+		if (current === "light" || current === "dark") setTheme(current)
 	}, [])
 
-	const toggle = () => {
-		const next: Theme = theme === "dark" ? "light" : "dark"
+	function toggle() {
+		const next = theme === "dark" ? "light" : "dark"
 		setTheme(next)
-		applyTheme(next)
+		document.documentElement.setAttribute("data-theme", next)
 		try {
-			window.localStorage.setItem(THEME_STORAGE_KEY, next)
-		} catch {
-			/* storage can be blocked — the toggle still works for this visit */
+			localStorage.setItem("mjh-theme", next)
+		} catch (e) {
+			// ignore storage errors (private browsing, etc.)
 		}
 	}
-
-	const label = theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
 
 	return (
 		<button
 			type="button"
-			className={"icon-btn " + className}
+			className="theme-toggle"
 			onClick={toggle}
-			aria-label={label}
-			title={label}
+			aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
 		>
-			{mounted && theme === "light" ? (
-				<Moon size={18} className="theme-toggle__icon" />
-			) : (
-				<Sun size={18} className="theme-toggle__icon" />
-			)}
+			{theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
 		</button>
 	)
 }
