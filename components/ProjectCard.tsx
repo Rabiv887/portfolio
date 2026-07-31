@@ -1,36 +1,65 @@
 import Link from "next/link"
-import { ArrowUpRight } from "@/components/Icons"
 import type { Project } from "@/lib/projects"
 import { projectHref } from "@/lib/projects"
+import { ArrowUpRight } from "@/components/Icons"
+import { MediaFrame, StatusBadge } from "@/components/ui"
 
-export function ProjectCard({ project }: { project: Project }) {
+/**
+ * Project card. Order: status row, reserved media area, title, summary, tags,
+ * actions. Actions stay explicit so keyboard focus and external links are
+ * never ambiguous.
+ */
+export function ProjectCard({
+	project,
+	index,
+}: {
+	project: Project
+	index?: number
+}) {
 	return (
-		<article className="card project-card">
-			<div className="media-frame media-frame--placeholder">
-				<span>Screenshot area reserved</span>
+		<article className="card card--interactive project-card">
+			<div className="project-card__head">
+				<span className="project-card__index">
+					{typeof index === "number"
+						? String(index + 1).padStart(2, "0")
+						: project.type}
+				</span>
+				<StatusBadge status={project.status} />
 			</div>
-			<div className="project-card__body">
-				<div className="project-card__head">
-					<h3 className="card__title">{project.name}</h3>
-					{project.status === "private" ? (
-						<span className="status-pill status-pill--private">Private</span>
-					) : project.status === "in-progress" ? (
-						<span className="status-pill status-pill--progress">In progress</span>
-					) : (
-						<span className="status-pill status-pill--live">Live</span>
-					)}
-				</div>
-				<p className="project-card__summary">{project.summary}</p>
-				<ul className="tag-row">
-					{project.tags.map((tag) => (
-						<li className="tag" key={tag}>
-							{tag}
-						</li>
-					))}
-				</ul>
-				<Link className="project-card__link" href={projectHref(project.slug)}>
-					View project <ArrowUpRight size={15} />
+
+			<MediaFrame media={project.media} />
+
+			<h3 className="card__title project-card__title">
+				<Link href={projectHref(project.slug)}>{project.shortTitle}</Link>
+			</h3>
+
+			<p className="card__desc">{project.cardSummary}</p>
+
+			<ul className="tag-row">
+				{project.tags.map((tag) => (
+					<li className="tag" key={tag}>
+						{tag}
+					</li>
+				))}
+			</ul>
+
+			<div className="project-card__actions">
+				<Link className="btn btn--secondary btn--sm" href={projectHref(project.slug)}>
+					View details
 				</Link>
+				{project.liveLinks.map((link) => (
+					<a
+						key={link.url}
+						className="btn btn--ghost btn--sm"
+						href={link.url}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{link.label}
+						<ArrowUpRight size={15} />
+						<span className="visually-hidden">(opens in a new tab)</span>
+					</a>
+				))}
 			</div>
 		</article>
 	)
