@@ -1,189 +1,102 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { notFound } from "next/navigation"
+import Link from "next/link"
+import { CaseStudySection } from "@/components/CaseStudySection"
 import { ContactCta } from "@/components/home/ContactCta"
-import {
-	CaseStudyList,
-	CaseStudyParagraphs,
-	CaseStudySection,
-} from "@/components/CaseStudySection"
-import { ArrowRight, ArrowUpRight } from "@/components/Icons"
-import { Reveal } from "@/components/Reveal"
+import { ArrowUpRight, Github } from "@/components/Icons"
 import { RelatedProjects } from "@/components/RelatedProjects"
-import { MediaFrame, Notice, Section, SectionHead, StatusBadge } from "@/components/ui"
-import { getProject, projectHref, projects } from "@/lib/projects"
-import { getProjectDetail, getRelatedProjects } from "@/lib/projectDetails"
+import { Notice, Section } from "@/components/ui"
+import { getProjectDetail } from "@/lib/projectDetails"
+import { projectHref, projects } from "@/lib/projects"
 import { site } from "@/lib/site"
 
 import "@/styles/projects.css"
 
-type ProjectPageParams = { slug: string }
+type ProjectPageProps = { params: { slug: string } }
 
-export function generateStaticParams(): ProjectPageParams[] {
+export function generateStaticParams() {
 	return projects.map((project) => ({ slug: project.slug }))
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<ProjectPageParams>
-}): Promise<Metadata> {
-	const { slug } = await params
-	const project = getProject(slug)
-	if (!project) return {}
+export function generateMetadata({ params }: ProjectPageProps): Metadata {
+	const project = projects.find((item) => item.slug === params.slug)
+	if (!project) return { title: "Project not found" }
 
-	const title = project.shortTitle + " \u2014 " + site.name
+	const description = project.summary
 	return {
-		title: { absolute: title },
-		description: project.cardSummary,
+		title: { absolute: project.name + " \u2014 " + site.name },
+		description,
 		alternates: { canonical: projectHref(project.slug) },
-		openGraph: {
-			type: "article",
-			title,
-			description: project.cardSummary,
-		},
+		openGraph: { title: project.name + " \u2014 " + site.name, description },
 	}
 }
 
-export default async function ProjectDetailPage({
-	params,
-}: {
-	params: Promise<ProjectPageParams>
-}) {
-	const { slug } = await params
-	const project = getProject(slug)
+export default function ProjectDetailPage({ params }: ProjectPageProps) {
+	const project = projects.find((item) => item.slug === params.slug)
 	if (!project) notFound()
 
 	const detail = getProjectDetail(project.slug)
-	const related = getRelatedProjects(project.slug)
-
-	const projectSchema = {
-		"@context": "https://schema.org",
-		"@type": "CreativeWork",
-		name: project.title,
-		description: project.summary,
-		url: site.url + projectHref(project.slug),
-		creator: { "@type": "Person", name: site.name, url: site.url },
-		...(project.liveLinks.length > 0
-			? { sameAs: project.liveLinks.map((link) => link.url) }
-			: {}),
-	}
 
 	return (
 		<>
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }}
-			/>
+			<Section id="project-header" className="page-header project-header">
+				<p className="eyebrow">Project</p>
+				<h1>{project.name}</h1>
+				<p className="page-header__lede">{project.summary}</p>
 
-			<Section id="project-hero">
-				<Link className="back-link" href="/projects/">
-					<ArrowRight size={15} className="back-link__icon" />
-					All projects
-				</Link>
+				<ul className="tag-row" aria-label="Technologies used">
+					{project.tags.map((tag) => (
+						<li className="tag" key={tag}>
+							{tag}
+						</li>
+					))}
+				</ul>
 
-				<div className="project-hero">
-					<div>
-						<p className="project-hero__type">{project.type}</p>
-						<div className="project-hero__badges">
-							<StatusBadge status={project.status} />
-						</div>
-						<h1>{project.title}</h1>
-						<p className="project-hero__summary">{project.summary}</p>
-
-						<ul className="tag-row">
-							{project.tags.map((tag) => (
-								<li className="tag" key={tag}>
-									{tag}
-								</li>
-							))}
-						</ul>
-
-						{project.status === "private" && detail?.privacyNote ? (
-							<div className="project-hero__privacy">
-								<Notice>{detail.privacyNote}</Notice>
-							</div>
-						) : null}
-
-						<div className="btn-row project-hero__actions">
-							{project.liveLinks.map((link) => (
-								<a
-									key={link.url}
-									className="btn btn--primary"
-									href={link.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									aria-label={link.label + " (opens in a new tab)"}
-								>
-									{link.label}
-									<ArrowUpRight size={17} />
-								</a>
-							))}
-							<Link className="btn btn--secondary" href="/projects/">
-								View all projects
-							</Link>
-							<Link className="btn btn--ghost" href="/contact/">
-								Contact me
-							</Link>
-						</div>
-					</div>
-
-					<div className="project-hero__media">
-						<MediaFrame media={project.media} />
-					</div>
-				</div>
-			</Section>
-
-			<Section id="case-study" labelledBy="case-study-title">
-				<SectionHead
-					eyebrow="Case study"
-					title="How this project came together"
-					titleId="case-study-title"
-					description="The problem, the people it's for, and an honest look at how it was built."
-				/>
-
-				<div className="case-study">
-					<Reveal>
-						<CaseStudySection title="Problem">
-							<CaseStudyParagraphs items={detail?.problem ?? []} />
-						</CaseStudySection>
-					</Reveal>
-
-					<Reveal delay={40}>
-						<CaseStudySection title="Target users">
-							<CaseStudyList items={detail?.targetUsers ?? []} />
-						</CaseStudySection>
-					</Reveal>
-
-					<Reveal delay={80}>
-						<CaseStudySection title={detail?.featuresLabel ?? "Key features"}>
-							<CaseStudyList items={detail?.features ?? []} />
-						</CaseStudySection>
-					</Reveal>
-
-					<Reveal delay={120}>
-						<CaseStudySection title="My role & contribution">
-							<CaseStudyList items={detail?.role ?? []} />
-						</CaseStudySection>
-					</Reveal>
-
-					<Reveal delay={160}>
-						<CaseStudySection title="Tools & technologies">
-							<CaseStudyList items={project.tech} />
-						</CaseStudySection>
-					</Reveal>
-
-					{detail?.challenges ? (
-						<Reveal delay={200}>
-							<CaseStudySection title="Challenges">
-								<CaseStudyList items={detail.challenges} />
-							</CaseStudySection>
-						</Reveal>
+				<div className="btn-row">
+					{project.liveUrl ? (
+						<a
+							className="btn btn--primary"
+							href={project.liveUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							View live <ArrowUpRight size={16} />
+						</a>
+					) : (
+						<button type="button" className="btn btn--secondary" disabled>
+							{project.status === "private" ? "Private project" : "Live link coming soon"}
+						</button>
+					)}
+					{project.repoUrl ? (
+						<a
+							className="btn btn--ghost"
+							href={project.repoUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<Github size={16} /> View code
+						</a>
 					) : null}
 				</div>
 			</Section>
 
-			<RelatedProjects projects={related} />
+			<Section id="project-media" className="section--tight">
+				<div className="media-frame media-frame--placeholder">
+					<span>Screenshot area reserved</span>
+				</div>
+			</Section>
+
+			{detail.sections.map((block) => (
+				<CaseStudySection key={block.title} block={block} />
+			))}
+
+			<Section id="project-links" className="section--tight">
+				<Notice>
+					<Link href="/projects/">See all other projects</Link>
+				</Notice>
+			</Section>
+
+			<RelatedProjects currentSlug={project.slug} tags={project.tags} />
 
 			<ContactCta />
 		</>
