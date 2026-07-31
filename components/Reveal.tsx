@@ -1,16 +1,23 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import type { ElementType, ReactNode } from "react"
+import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react"
 
-type RevealProps = {
+/**
+ * Fade-in + slide-up reveal driven by IntersectionObserver.
+ * Falls back to visible content when JS or IntersectionObserver is unavailable,
+ * and CSS disables the motion entirely under prefers-reduced-motion.
+ */
+export function Reveal({
+	children,
+	as: Tag = "div",
+	delay = 0,
+	className = "",
+}: {
 	children: ReactNode
 	as?: ElementType
 	delay?: number
 	className?: string
-}
-
-export function Reveal({ children, as: Tag = "div", delay = 0, className }: RevealProps) {
+}) {
 	const ref = useRef<HTMLElement | null>(null)
 	const [visible, setVisible] = useState(false)
 
@@ -32,7 +39,7 @@ export function Reveal({ children, as: Tag = "div", delay = 0, className }: Reve
 					}
 				})
 			},
-			{ threshold: 0.15 },
+			{ rootMargin: "0px 0px -12% 0px", threshold: 0.05 },
 		)
 
 		observer.observe(node)
@@ -42,8 +49,9 @@ export function Reveal({ children, as: Tag = "div", delay = 0, className }: Reve
 	return (
 		<Tag
 			ref={ref}
-			className={"reveal" + (visible ? " reveal--visible" : "") + (className ? " " + className : "")}
-			style={{ transitionDelay: delay + "ms" }}
+			className={`reveal ${className}`.trim()}
+			data-visible={visible ? "true" : "false"}
+			style={delay ? { transitionDelay: `${delay}ms` } : undefined}
 		>
 			{children}
 		</Tag>
