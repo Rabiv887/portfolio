@@ -1,54 +1,68 @@
+/** Shared editorial content used across pages. */
+
 export type SkillGroup = {
 	title: string
-	icon: "code" | "automation" | "ai" | "design"
+	icon: "code" | "bot" | "spark" | "compass"
 	items: string[]
 }
 
 export const skillGroups: SkillGroup[] = [
 	{
-		title: "Web Development",
+		title: "Development",
 		icon: "code",
-		items: ["HTML", "CSS", "JavaScript", "React", "Next.js"],
-	},
-	{
-		title: "AI-Assisted Building",
-		icon: "ai",
-		items: ["Prompt Engineering", "AI-Assisted Development", "ChatGPT / LLM tooling"],
+		items: ["HTML", "CSS", "JavaScript", "Web tool development", "Git & GitHub"],
 	},
 	{
 		title: "Automation",
-		icon: "automation",
-		items: ["Python", "Workflow Automation", "Scripting"],
+		icon: "bot",
+		items: [
+			"Python for automation",
+			"Workflow automation",
+			"Automation scripts",
+			"PDF processing",
+			"Telegram Bot API",
+		],
 	},
 	{
-		title: "Design & Foundations",
-		icon: "design",
-		items: ["UI/UX Fundamentals", "Mathematics"],
+		title: "AI & Productivity",
+		icon: "spark",
+		items: [
+			"AI-assisted development",
+			"Prompt engineering",
+			"AI tools",
+			"Productivity workflows",
+		],
+	},
+	{
+		title: "Thinking & Process",
+		icon: "compass",
+		items: [
+			"Problem solving",
+			"Analytical thinking",
+			"Research & experimentation",
+			"User-centered thinking",
+			"Continuous learning",
+		],
 	},
 ]
 
 export const aboutPreview = {
 	paragraphs: [
-		"I'm a B.Sc. Mathematics student who fell into web development through curiosity about automating small, annoying problems. What started as scripts to save myself time turned into a habit of building complete tools \u2014 web apps that other people could actually use.",
-		"AI is a core part of how I build. I use it to move faster, explore ideas, and learn new tools \u2014 not as a replacement for understanding what I ship. Every project here was shaped, tested, and refined by me.",
-		"My mathematics background shows up in how I approach problems: breaking things into smaller pieces, looking for patterns, and valuing correctness over shortcuts.",
+		"I am a B.Sc. in Mathematics graduate with a strong interest in technology, AI-assisted development, web tools, and automation. My academic background is in Mathematics, but my focus is on building useful digital tools that solve real problems.",
+		"I learn by creating projects, experimenting with ideas, and improving them through hands-on work. Every tool here started as a problem I ran into myself, and I use AI responsibly to turn those ideas into reliable, user-friendly solutions.",
 	],
 	values: [
 		{
-			title: "Build things people actually use",
-			body: "A project is only finished when it solves a real problem for a real person.",
+			title: "Honest documentation",
+			body: "Projects are described exactly as they are, including what is private or still evolving.",
 		},
 		{
-			title: "Learn in public, ship anyway",
-			body: "I don't wait until I feel like an expert. I build, learn from the process, and improve the next version.",
+			title: "Practical problem solving",
+			body: "Each tool exists because it removed real, repetitive work from someone's day.",
 		},
 		{
-			title: "AI as a tool, not a shortcut",
-			body: "I use AI to accelerate my work, but I stay responsible for every decision and every line that ships.",
-		},
-		{
-			title: "Clarity over complexity",
-			body: "Simple, well-structured solutions beat clever ones that are hard to maintain.",
+			title: "Continuous learning",
+			body: "New technologies are learned by building, testing, and refining real projects.",
 		},
 	],
 }
@@ -56,53 +70,62 @@ export const aboutPreview = {
 export const resumePreview = {
 	facts: [
 		{ label: "Education", value: "B.Sc. in Mathematics" },
-		{ label: "Focus", value: "AI-assisted web tools & automation" },
-		{ label: "Availability", value: "Open to collaboration and interesting problems" },
+		{ label: "Focus", value: "AI-assisted development, web tools, automation" },
+		{ label: "Projects", value: "4 documented projects, 2 with public live tools" },
+		{ label: "Open to", value: "Collaborations, internships, technology projects" },
 	],
-	downloadLabel: "Download Resume \u2014 Coming Soon",
 }
 
 export type FaqItem = { question: string; answer: string }
 
 export const faqItems: FaqItem[] = [
 	{
-		question: "Are you currently looking for a job?",
+		question: "Who are you?",
 		answer:
-			"Not actively \u2014 this portfolio is primarily about building my personal brand and sharing my projects. That said, I'm open to interesting opportunities and collaborations.",
+			"A B.Sc. in Mathematics graduate passionate about AI-assisted development, web tools, and automation.",
 	},
 	{
-		question: "Do you use AI to build your projects?",
+		question: "What kind of projects do you build?",
 		answer:
-			"Yes, extensively. AI helps me write code faster, explore approaches, and learn new tools. I review, test, and take responsibility for everything that ships \u2014 AI is a tool I direct, not an autopilot.",
+			"Practical web tools, automation systems, productivity tools, and AI-assisted applications.",
 	},
 	{
-		question: "What technologies do you work with?",
+		question: "Which technologies do you use?",
 		answer:
-			"HTML, CSS, JavaScript, React, and Next.js for the web; Python for automation and scripting; and AI-assisted tooling throughout my workflow.",
+			"HTML, CSS, JavaScript, Python, Git, GitHub, AI tools, and modern web technologies.",
 	},
 	{
-		question: "Can I see the source code for your projects?",
+		question: "Are your projects open source?",
 		answer:
-			"Where a project is public, the project page links to its repository. Some projects are private and are labeled as such instead of linking to a broken or restricted URL.",
+			"Some projects are public, while others remain private due to security or ongoing development.",
 	},
 	{
-		question: "How can I get in touch?",
+		question: "Can I collaborate with you?",
 		answer:
-			"The fastest way is the contact form on the Contact page, or email me directly. My LinkedIn is also open for connection.",
+			"Yes. I am open to collaborations, internships, and interesting technology projects.",
 	},
 	{
-		question: "Do you have a resume I can download?",
+		question: "How can I contact you?",
+		answer: "Through the contact form or my professional email.",
+	},
+	{
+		question: "Are you currently learning new technologies?",
 		answer:
-			"A downloadable PDF is coming soon. In the meantime, the Resume page has a summary of my education, focus, and availability.",
+			"Yes. I continuously learn and improve my skills by building real-world projects and experimenting with modern technologies.",
+	},
+	{
+		question: "Do you accept freelance or custom project requests?",
+		answer: "Yes, for projects that match my skills and availability.",
 	},
 ]
 
+/** First four questions are surfaced on the home page; /faq/ shows all of them. */
+export const faqPreviewItems: FaqItem[] = faqItems.slice(0, 4)
+
+/** Closing call-to-action copy used by the home page. */
 export const contactCta = {
-	eyebrow: "Let's build something",
-	title: "Have a project in mind or just want to say hi?",
-	body: "I'm always happy to talk about AI-assisted building, automation, or new ideas.",
-	primaryLabel: "Contact me",
-	primaryHref: "/contact/",
-	secondaryLabel: "See my projects",
-	secondaryHref: "/projects/",
+	eyebrow: "Contact",
+	heading: "Have an idea, a problem, or a project in mind?",
+	description:
+		"I am open to collaborations, internships, and interesting technology projects. Email is the fastest way to reach me, and I reply to every genuine message.",
 }
