@@ -2,7 +2,7 @@
 
 Personal portfolio website for **Md. Julmot Hossain**, built from the approved
 PRD and UI/UX Design Specification. Static-exported Next.js, deployed to
-Cloudflare Pages at <https://julmothossain.me>.
+**GitHub Pages** at <https://rabiv887.github.io/portfolio/>.
 
 ---
 
@@ -152,22 +152,44 @@ it feeds the `--font-display` variable that the CSS already reads.
 
 ---
 
-## Deploying to Cloudflare Pages
+## Deploying to GitHub Pages
 
-1. Push this repository to GitHub.
-2. Cloudflare dashboard - **Workers & Pages** - **Create** - **Pages** -
-   **Connect to Git**, then pick the repository.
-3. Build settings:
-   - Framework preset: **Next.js (Static HTML Export)**
-   - Build command: `npm run build`
-   - Build output directory: `out`
-   - Environment variable: `NODE_VERSION` = `20`
-4. Add the custom domain `julmothossain.me` under **Custom domains**.
-   HTTPS and the global CDN are automatic.
-5. Every push to the default branch redeploys.
+This repo is a **project site** (not a `<user>.github.io` repo), so it is
+served from a `/portfolio` sub-path. `next.config.mjs` sets `basePath` and
+`assetPrefix` to `/portfolio` to match, and `lib/site.ts` mirrors the same
+value plus the full production URL. If this repository is ever renamed,
+update `REPO_BASE_PATH` in `next.config.mjs` and `basePath`/`url` in
+`lib/site.ts` together.
 
-`public/_headers` ships security headers (nosniff, frame-deny, HSTS,
-referrer and permissions policy) and immutable caching for hashed assets.
+Deployment is automated with `.github/workflows/deploy.yml`:
+
+1. On every push to `main` (or manually via **Actions -> Deploy to GitHub
+   Pages -> Run workflow**), the workflow installs dependencies, runs
+   `npm run build` (static export into `./out`), and publishes `./out` with
+   the official `actions/upload-pages-artifact` + `actions/deploy-pages`
+   actions.
+2. `public/.nojekyll` disables GitHub Pages' default Jekyll processing, which
+   would otherwise ignore the `_next/` folder (any path starting with `_`).
+
+**One-time manual setup required in GitHub Settings** (the workflow cannot do
+this for you):
+
+1. Go to the repository on GitHub -> **Settings** -> **Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Push to `main` (or run the workflow manually) and wait for the
+   **Deploy to GitHub Pages** workflow to finish.
+4. The site will be live at **<https://rabiv887.github.io/portfolio/>**.
+
+> GitHub Pages does not support the custom response headers in
+> `public/_headers` (that file was written for Cloudflare Pages). GitHub
+> Pages serves everything over HTTPS by default, but the extra security
+> headers (CSP-adjacent nosniff/frame-deny/HSTS/permissions-policy) will not
+> apply unless a CDN or proxy is later placed in front of it.
+
+To use a **custom domain** instead of the default `github.io` URL later, add
+a `public/CNAME` file with the domain, set it again under **Settings ->
+Pages -> Custom domain**, and switch `basePath`/`assetPrefix` back to `""`
+(project would then be served from the domain root, not `/portfolio`).
 
 ---
 
