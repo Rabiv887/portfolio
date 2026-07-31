@@ -1,19 +1,29 @@
-import { faqItems } from "@/lib/content"
-import FaqAccordion from "../FaqAccordion"
-import { Button, SectionHeader } from "../ui"
+import Link from "next/link"
+import { FaqAccordion } from "@/components/FaqAccordion"
+import { Container, SectionHead } from "@/components/ui"
+import { faqPreviewItems } from "@/lib/content"
 
-export default function FaqPreview() {
-  return (
-    <section className="section">
-      <div className="container">
-        <SectionHeader eyebrow="FAQ" title="Frequently asked questions" />
-        <FaqAccordion items={faqItems.slice(0, 3)} />
-        <div style={{ marginTop: "24px" }}>
-          <Button href="/faq/" variant="secondary">
-            View all questions
-          </Button>
-        </div>
-      </div>
-    </section>
-  )
+/** First four FAQ questions; the rest live on /faq/. */
+export function FaqPreview() {
+	return (
+		<section className="section section--alt" aria-labelledby="faq-title">
+			<Container>
+				<SectionHead
+					eyebrow="FAQ"
+					title="Questions people usually ask"
+					titleId="faq-title"
+					description="Short, honest answers about how I work and what I use AI for."
+					action={
+						<Link className="btn btn--ghost btn--sm" href="/faq/">
+							All questions
+						</Link>
+					}
+				/>
+
+				<div className="faq-grid">
+					<FaqAccordion items={faqPreviewItems} />
+				</div>
+			</Container>
+		</section>
+	)
 }

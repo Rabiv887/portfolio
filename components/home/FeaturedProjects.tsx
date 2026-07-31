@@ -1,24 +1,38 @@
-import { getFeaturedProjects } from "@/lib/projects"
-import ProjectCard from "../ProjectCard"
-import { Button, SectionHeader } from "../ui"
+import Link from "next/link"
+import { ProjectCard } from "@/components/ProjectCard"
+import { Reveal } from "@/components/Reveal"
+import { Container, SectionHead } from "@/components/ui"
+import { featuredProjects } from "@/lib/projects"
 
-export default function FeaturedProjects() {
-  const projects = getFeaturedProjects()
-  return (
-    <section className="section">
-      <div className="container">
-        <SectionHeader eyebrow="Selected work" title="Featured projects" description="A look at the public web tools I've built and shipped." />
-        <div className="grid grid-2">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-        <div style={{ marginTop: "32px" }}>
-          <Button href="/projects/" variant="secondary">
-            View all projects
-          </Button>
-        </div>
-      </div>
-    </section>
-  )
+/** Featured work: the two public, live tools. */
+export function FeaturedProjects() {
+	return (
+		<section
+			className="section"
+			id="featured-projects"
+			aria-labelledby="featured-projects-title"
+		>
+			<Container>
+				<SectionHead
+					eyebrow="Featured work"
+					title="Tools that solve a real, everyday problem"
+					titleId="featured-projects-title"
+					description="Both of these started as problems I ran into myself. They are public, free to try, and documented honestly."
+					action={
+						<Link className="btn btn--ghost btn--sm" href="/projects/">
+							All projects
+						</Link>
+					}
+				/>
+
+				<div className="featured-grid">
+					{featuredProjects.map((project, index) => (
+						<Reveal key={project.slug} delay={index * 70}>
+							<ProjectCard project={project} index={index} />
+						</Reveal>
+					))}
+				</div>
+			</Container>
+		</section>
+	)
 }

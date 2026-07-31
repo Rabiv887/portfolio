@@ -1,17 +1,28 @@
-import { projects } from "@/lib/projects"
-import ProjectCard from "./ProjectCard"
+import { ProjectCard } from "@/components/ProjectCard"
+import { Reveal } from "@/components/Reveal"
+import { Section, SectionHead } from "@/components/ui"
+import type { Project } from "@/lib/projects"
 
-export default function RelatedProjects({ excludeSlug }: { excludeSlug: string }) {
-  const related = projects.filter((p) => p.slug !== excludeSlug).slice(0, 2)
-  if (related.length === 0) return null
-  return (
-    <div className="container related-projects">
-      <h2>More projects</h2>
-      <div className="grid grid-2">
-        {related.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </div>
-    </div>
-  )
+export function RelatedProjects({ projects }: { projects: Project[] }) {
+	if (projects.length === 0) return null
+	return (
+		<Section
+			id="related-projects"
+			labelledBy="related-projects-title"
+			className="section--tight"
+		>
+			<SectionHead
+				eyebrow="Keep exploring"
+				title="Related projects"
+				titleId="related-projects-title"
+			/>
+			<div className="related-grid">
+				{projects.map((project, index) => (
+					<Reveal key={project.slug} delay={index * 70}>
+						<ProjectCard project={project} index={index} />
+					</Reveal>
+				))}
+			</div>
+		</Section>
+	)
 }
