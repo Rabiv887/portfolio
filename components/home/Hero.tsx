@@ -81,4 +81,54 @@ export function Hero() {
 													: link.label + " profile (opens in a new tab)"
 											}
 										>
-			
+											<SocialIcon id={link.id} />
+										</a>
+									),
+								)}
+							</div>
+						</div>
+					</div>
+
+					{/* No personal photo yet - monogram placeholder by design. */}
+					<aside className="identity-card" aria-label="Profile summary">
+						<div className="identity-card__top">
+							<span className="identity-card__avatar" aria-hidden="true">
+								{site.monogram}
+							</span>
+							<div>
+								<p className="identity-card__name">{site.name}</p>
+								<p className="identity-card__meta">{site.education}</p>
+							</div>
+						</div>
+
+						<div className="identity-card__divider" aria-hidden="true" />
+
+						<dl className="identity-stats">
+							<div className="identity-stat">
+								<dd className="identity-stat__value">{projectStats.total}</dd>
+								<dt className="identity-stat__label">Documented projects</dt>
+							</div>
+							<div className="identity-stat">
+								<dd className="identity-stat__value">{projectStats.live}</dd>
+								<dt className="identity-stat__label">Public live tools</dt>
+							</div>
+							<div className="identity-stat">
+								<dd className="identity-stat__value">B.Sc.</dd>
+								<dt className="identity-stat__label">Mathematics graduate</dt>
+							</div>
+						</dl>
+
+						<div className="identity-card__focus">
+							<h3>Current focus</h3>
+							<ul className="tag-row">
+								<li className="tag">Practical web tools</li>
+								<li className="tag">Automation</li>
+								<li className="tag">Continuous learning</li>
+							</ul>
+						</div>
+					</aside>
+				</div>
+			</Container>
+		</section>
+	)
+}

@@ -1,73 +1,137 @@
-import Link from "next/link"
 import type { ReactNode } from "react"
+import { Image as ImageIcon, Info } from "@/components/Icons"
 
-type ButtonProps = {
-  href?: string
-  children: ReactNode
-  variant?: "primary" | "secondary" | "disabled"
-  external?: boolean
+export function Container({
+	children,
+	className = "",
+}: {
+	children: ReactNode
+	className?: string
+}) {
+	return <div className={`container ${className}`.trim()}>{children}</div>
 }
 
-export function Button({ href, children, variant = "primary", external }: ButtonProps) {
-  const className = variant === "primary" ? "btn btn-primary" : variant === "secondary" ? "btn btn-secondary" : "btn btn-disabled"
-  if (!href || variant === "disabled") {
-    return (
-      <span className={className} aria-disabled="true">
-        {children}
-      </span>
-    )
-  }
-  if (external) {
-    return (
-      <a className={className} href={href} target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link className={className} href={href}>
-      {children}
-    </Link>
-  )
+export function Section({
+	id,
+	children,
+	className = "",
+	labelledBy,
+}: {
+	id?: string
+	children: ReactNode
+	className?: string
+	labelledBy?: string
+}) {
+	return (
+		<section id={id} className={`section ${className}`.trim()} aria-labelledby={labelledBy}>
+			<Container>{children}</Container>
+		</section>
+	)
 }
 
-export function StatusBadge({ status }: { status: "public" | "private" }) {
-  const className = status === "public" ? "badge badge-public" : "badge badge-private"
-  const label = status === "public" ? "Public" : "Private"
-  return <span className={className}>{label}</span>
+export function SectionHead({
+	eyebrow,
+	title,
+	titleId,
+	description,
+	action,
+}: {
+	eyebrow: string
+	title: string
+	titleId?: string
+	description?: string
+	action?: ReactNode
+}) {
+	return (
+		<div className="section-head">
+			<div className="section-head__text">
+				<p className="eyebrow">{eyebrow}</p>
+				<h2 id={titleId}>{title}</h2>
+				{description ? <p>{description}</p> : null}
+			</div>
+			{action}
+		</div>
+	)
+}
+
+/**
+ * Reserved screenshot area. Intentionally shows no fake mockup — real captures
+ * drop into the exact same box later without any layout change.
+ */
+export function MediaFrame({
+	label = "Screenshot area reserved",
+	media,
+}: {
+	label?: string
+	media?: { src: string; alt: string }[]
+}) {
+	if (media && media.length > 0) {
+		const [primary, ...rest] = media
+		return (
+			<div className="media-frame media-frame--filled">
+				<img className="media-frame__image" src={primary.src} alt={primary.alt} loading="lazy" />
+				{rest.length > 0 ? (
+					<div className="media-frame__thumbs">
+						{rest.map((item) => (
+							<img
+								key={item.src}
+								className="media-frame__thumb"
+								src={item.src}
+								alt={item.alt}
+								loading="lazy"
+							/>
+						))}
+					</div>
+				) : null}
+			</div>
+		)
+	}
+
+	return (
+		<div className="media-frame" role="presentation">
+			<span className="media-frame__label">
+				<ImageIcon size={15} />
+				{label}
+			</span>
+		</div>
+	)
 }
 
 export function Tag({ children }: { children: ReactNode }) {
-  return <span className="tag">{children}</span>
+	return <li className="tag">{children}</li>
 }
 
-export function Card({ children }: { children: ReactNode }) {
-  return <div className="card">{children}</div>
-}
-
-export function MediaFrame({ media }: { media?: { src: string; alt: string } }) {
-  if (!media) {
-    return <div className="media-frame">Screenshot area reserved</div>
-  }
-  return (
-    <div className="media-frame">
-      <img src={media.src} alt={media.alt} loading="lazy" />
-    </div>
-  )
-}
-
-type SectionHeaderProps = { eyebrow?: string; title: string; description?: string }
-
-export function SectionHeader({ eyebrow, title, description }: SectionHeaderProps) {
-  return (
-    <div className="section-header reveal">
-      {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2>{title}</h2>
-      {description ? <p>{description}</p> : null}
-    </div>
-  )
+export function StatusBadge({ status }: { status: "public" | "private" }) {
+	if (status === "public") {
+		return (
+			<span className="badge badge--live">
+				<span className="badge__dot" aria-hidden="true" />
+				Live
+			</span>
+		)
+	}
+	return <span className="badge badge--private">Private</span>
 }
 
 export function Notice({ children }: { children: ReactNode }) {
-  return <div className="notice">{children}</div>
+	return (
+		<p className="notice">
+			<Info size={17} />
+			<span>{children}</span>
+		</p>
+	)
+}
+
+export function Monogram({
+	className = "",
+	text = "MJH",
+}: {
+	className?: string
+	text?: string
+}) {
+	return (
+		<span className={`monogram ${className}`.trim()} aria-hidden="true">
+			{text}
+		</span>
+	)
 }
