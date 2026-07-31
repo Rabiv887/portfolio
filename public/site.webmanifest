@@ -1,8 +1,17 @@
 {
-	"name": "Md. Julmot Hossain",
-	"short_name": "Julmot Hossain",
-	"icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
-	"theme_color": "#0F172A",
-	"background_color": "#0F172A",
-	"display": "standalone"
+  "name": "Md. Julmot Hossain",
+  "short_name": "MJH",
+  "description": "Personal portfolio of Md. Julmot Hossain \u2014 practical web tools, AI-assisted development, and everyday automation projects.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }
