@@ -59,10 +59,10 @@ export const metadata: Metadata = {
 	},
 	robots: { index: true, follow: true },
 	icons: {
-		icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-		apple: "/favicon.svg",
+		icon: [{ url: site.basePath + "/favicon.svg", type: "image/svg+xml" }],
+		apple: site.basePath + "/favicon.svg",
 	},
-	manifest: "/site.webmanifest",
+	manifest: site.basePath + "/site.webmanifest",
 }
 
 export const viewport: Viewport = {
