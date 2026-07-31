@@ -1,0 +1,12 @@
+.filters { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-7); }
+.filter-btn { border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); border-radius: var(--radius-pill); padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); min-height: 44px; cursor: pointer; }
+.filter-btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.detail-header { padding: var(--space-8) 0 var(--space-6); }
+.detail-header .badge { margin-bottom: var(--space-4); }
+.detail-meta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-5) 0; }
+.case-study-section { padding: var(--space-7) 0; border-top: 1px solid var(--border); }
+.case-study-section h2 { font-size: 1.5rem; }
+.case-study-section ul { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.case-study-section li { color: var(--text-muted); padding-left: var(--space-5); position: relative; }
+.case-study-section li::before { content: "\2013"; position: absolute; left: 0; color: var(--accent-2); }
+.related-projects { padding-top: var(--space-7); border-top: 1px solid var(--border); }
